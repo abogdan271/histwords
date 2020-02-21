@@ -1,52 +1,27 @@
 # Word Embeddings for Historical Text
 
-### Author: William Hamilton (wleif@stanford.edu)
-### [Project Website](http://nlp.stanford.edu/projects/histwords)
+### Original Author: William Hamilton (wleif@stanford.edu)
+### [Original Repository](https://github.com/williamleif/histwords)
+### Co-Author: Bogdan Asztalos (abogdan@caesar.elte.hu)
 
 ## Overview 
 
-An eclectic collection of tools for analyzing historical language change using vector space semantics.
+Collection of programs to create diachronic word embedding with Word2vec. This code is a developed and (in some cases) modifyed version of William Hamilton's code.
 
-![alt text](https://github.com/williamleif/historical-embeddings/raw/master/wordpaths-final.png "Two-dimensional projections of some semantic changes computed using the English SGNS vectors. Check the appendix of my ACL 2016 paper (linked below) for details.")
+## Creating embedding
 
-## Pre-trained historical embeddings
+The code is optimized for downloading data from Google Ngram Viewer and training Word2vec embeddings for different time intervals. Bash script `full_process.sh` will execute all the necessary codes.
 
-Various embeddings (for many languages and using different embeddings approaches are available on the [project website](http://nlp.stanford.edu/projects/histwords).
+### Embedding process
 
-Some pre-trained word2vec (i.e., SGNS) historical word vectors for multiple languages (constructed via Google N-grams) are also available here:
-* [All English (eng-all)](http://snap.stanford.edu/historical_embeddings/eng-all_sgns.zip) 
-* [English fiction (eng-fiction-all)](http://snap.stanford.edu/historical_embeddings/eng-fiction-all_sgns.zip) 
-* [French (fre-all)](http://snap.stanford.edu/historical_embeddings/fre-all_sgns.zip) 
-* [German (ger-all)](http://snap.stanford.edu/historical_embeddings/ger-all_sgns.zip) 
-* [Chinese (chi-sim-all)](http://snap.stanford.edu/historical_embeddings/chi-sim-all_sgns.zip) 
-
-All except Chinese contain embeddings for the decades in the range 1800s-1990s (2000s are excluded because of sampling changes in the N-grams corpus).
-The Chinese data starts in 1950.
-
-Embeddings constructed using the Corpus of Historical American English (COHA) are also available:
-* [Raw words (coha-word)](http://snap.stanford.edu/historical_embeddings/coha-word_sgns.zip) 
-* [Word lemmas (coha-lemma)](http://snap.stanford.edu/historical_embeddings/coha-lemma_sgns.zip) 
-
-`example.sh` contains an example run, showing how to download and use the embeddings.
-`example.py` shows how to use the vector representations in the Python code (assuming you have already run the `example.sh` script.)
-
-[This paper](http://arxiv.org/abs/1605.09096) describes how the embeddings were constructed.
-If you make use of these embeddings in your research, please cite the following:
-
-@inproceedings{hamilton_diachronic_2016,
-  title = {Diachronic {Word} {Embeddings} {Reveal} {Statistical} {Laws} of {Semantic} {Change}},
-  url = {http://arxiv.org/abs/1605.09096},
-  booktitle = {Proc. {Assoc}. {Comput}. {Ling}. ({ACL})},
-  author = {Hamilton, William L. and Leskovec, Jure and Jurafsky, Dan},
-  year = {2016}
-}
-
-## Training your own embeddings
-
-You can use the provided code to train your own embeddings (see code organization below). However, thanks to Ryan Heuser you can also simply train embeddings with gensim (https://radimrehurek.com/gensim/) and use Ryan's port of my code to align the gensim models between time periods (https://gist.github.com/quadrismegistus/09a93e219a6ffc4f216fb85235535faf). Gensim contains many easy-to-use variants of word embeddings (e.g., LSI/SVD, word2vec, wordrank, ...), wrappers for using other packages like GloVe, and is very well maintained, so this solution is recommended. 
-
+The embedding process introduced in `full_process.sh` differs from the original code in three main point:
+* Stems (lemmatizes) the words and embeds the root of words together
+* Embeds only words selected by given rules, and creates equal number of data for training the embedding, regardless of the quantity of raw data
+* For a given time interval trains more embedding and get the avarage of them
 
 ## Code organization
+
+Most of the original code is untouched. In `googlengram`, `sgns` and `vecanalysis` directiories some debuggings and modifies did happen.
 
 The structure of the code (in terms of folder organization) is as follows:
 
