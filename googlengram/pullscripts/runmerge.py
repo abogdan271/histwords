@@ -1,3 +1,6 @@
+# Execute the merge.py which merges the co-occurrence data from the alphabetically separated directories. (It's needed to give 1 to year-inc, because merge.py processes only years that are contained in variable 'years')
+# e.g. python -m googlengram.pullscripts.runmerge data_dir/merged/ data_dir/unmerged/c2/raw/ 5 --start-year 1800 --end-year 1999 --year-inc 1
+
 import argparse
 from googlengram.pullscripts.merge import run_parallel
 

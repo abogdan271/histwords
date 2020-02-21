@@ -5,6 +5,7 @@ import numpy as np
 cimport numpy as np
 
 def export_mat_from_dict(counts, filename):
+    """Writes co-occurrence matrix to binary file. Co-occurrence matrix must be in a dictionary-like object whit word-pair - co-occurrence data-pairs."""
     cdef FILE* fout
     cdef int word1
     cdef int word2
@@ -22,6 +23,7 @@ def export_mat_from_dict(counts, filename):
     fclose(fout)
 
 def export_mat_eff(row_d, col_d, data_d, out_file):
+    """Writes co-occurrence matrix to binary file. Co-occurrence matrix must represent by 3 array-like objects: row_indices, col_indices and occurrence datas."""
     cdef FILE* fout
     cdef int word1
     cdef int word2
@@ -43,6 +45,7 @@ def export_mat_eff(row_d, col_d, data_d, out_file):
 
 def retrieve_mat_as_coo(matfn, min_size=None):
     """
+    Reads co-occurrence matrix from binary file and returns it as sparse matrix in coordinate format.
     matfn = file name of matrix
     min_size = pad with zeros to this size
     """

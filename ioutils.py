@@ -4,11 +4,21 @@ import cPickle as pickle
 from googlengram.indexing import get_word_indices
 
 def words_above_count(count_dir, year, min_count):
+    """Returns a list of words that are occured more than min_count in year in descending order of occurrence"""
     counts = load_pickle(count_dir + str(year) + "-counts.pkl")
     words = sorted([word for word, count in counts.iteritems() if count >= min_count], key = lambda word : -1*counts[word])
     return words
 
 def load_target_context_words(years, word_file, num_target, num_context):
+    """
+    Returns two dicts. The first one contains the 'num_target' most occurrenced word in every year the second one contains the 'mum_context' most occurrenced words in every year.
+    
+    parameters:
+        years: range of years
+        word_file: .pkl file which must contain a dict with year-occurrence datas. Occurrence datas also must be dicts with word-occurrence pairs. It's also possible that word_file contains just the word-occurrence pairs once and then in the result dict all year will have the same list.
+        num_target: number of target words
+        num_context: number of context words
+    """
     if num_context == 0:
         num_context = None
     if num_target == -1:
@@ -29,6 +39,7 @@ def load_target_context_words(years, word_file, num_target, num_context):
     return target_lists, context_lists
 
 def load_year_indexes(dir, years):
+    """Return a dict with year-index pairs. Indices are loaded from 'dir' (it can be merged or yearly-separated)."""
     if "index.pkl" in os.listdir(dir):
         index = load_pickle(dir + "/index.pkl")
         year_indexes = {year:index for year in years}
@@ -82,12 +93,19 @@ def load_year_index_infos_common(common_index, years, word_file, num_words=-1):
     return year_index_infos
 
 def load_year_words(word_file, years):
+    """
+    Returns a dict with year-list pairs. The list contains the words used in the individual year in descending order of occurrence.
+
+    parameters:
+        word_file: .pkl file which must contain a dict with year-occurrence datas. Occurrence datas also must be dicts with word-occurrence pairs. It's also possible that word_file contains just the word-occurrence pairs once and then in the result dict all year will have the same list.
+        years: range of years
+    """
     word_pickle = load_pickle(word_file)
     word_lists = {}
-    if not years[0] in word_pickle:
+    if not years[0] in word_pickle: # If word_pickle doesn't contains years ...
         if type(word_pickle) == dict or type(word_pickle) == collections.Counter:
-            word_pickle = sorted(word_pickle, key = lambda word : word_pickle[word], reverse=True) 
-        for year in years:
+            word_pickle = sorted(word_pickle, key = lambda word : word_pickle[word], reverse=True)
+        for year in years: # ... every year get the same list.
             word_lists[year] = word_pickle
     else:
         for year in years:

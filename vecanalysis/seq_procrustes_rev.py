@@ -1,4 +1,4 @@
-# Rotates embedding to each other
+# Modifications of seq_procrustes.py: Rotates years to each other in reversed order
 # e.g. python -m vecanalysis.seq_procrusetes data_dir sgns
 
 import numpy as np
@@ -19,7 +19,7 @@ def align_years(years, rep_type, in_dir, out_dir, **rep_args):
             aligned_embed = year_embed
             first_iter = False
         else:
-            aligned_embed = alignment.smart_procrustes_align(base_embed, year_embed, post_normalize=False) # Rotates to the previous year embedding
+            aligned_embed = alignment.smart_procrustes_align(base_embed, year_embed, post_normalize=False) # Rotates to the previous year embedding # Rotates to the previous year embedding
         base_embed = aligned_embed
         print "Writing year:", year
         foutname = out_dir + str(year)
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     kwargs = dict()
     if (args.rep_type.lower() == "sgns"):
         kwargs["normalize"] = False
-    years = range(args.start_year, args.end_year + 1, args.year_inc)
-    out_dir = args.dir + "/aligned/"
+    years = range(args.end_year, args.start_year - 1, -args.year_inc)
+    out_dir = args.dir + "/aligned_rev/"
     mkdir(out_dir)
     align_years(years, args.rep_type, args.dir, out_dir, **kwargs)

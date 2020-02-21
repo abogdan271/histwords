@@ -1,5 +1,5 @@
-# Collects the occured word pairs in the format that can be processed by the word2vec
-# e.g. python -m sgns.makecorpus data_dir/corpus/ data_dir/decades/ data_dir/counts/ --workers 5 --start-year 1800 --end-year 1990
+# Modification os makecorpus.py: Creates a given number of word pair data
+# e.g. python -m sgns.makecorpus_eq data_dir/corpus/ data_dir/decades/ data_dir/counts/
 
 import argparse
 import os
@@ -11,7 +11,7 @@ from Queue import Empty
 import ioutils
 from representations.explicit import Explicit
 
-def worker(proc_num, queue, out_dir, in_dir, num_words, min_count, count_dir, sample=1e-5):
+def worker(proc_num, queue, out_dir, in_dir, num_words, min_count, count_dir, num_sam, sample=1e-5):
     while True:
         try:
             year = queue.get(block=False)
@@ -48,14 +48,14 @@ def worker(proc_num, queue, out_dir, in_dir, num_words, min_count, count_dir, sa
             for word in use_words:
                 print >>fp, word.encode("utf-8"), int(mat[embed.wi[word], :].sum())
         print "shuf " + out_dir + str(year) + ".tmp.txt" " > " + out_dir + str(year) + ".txt" 
-        os.system("shuf " + out_dir + str(year) + ".tmp.txt" + " > " + out_dir + str(year) + ".txt") # Shuffles the order of word pairs
+        os.system("shuf " + out_dir + str(year) + ".tmp.txt -r -n " + str(num_sam) + " > " + out_dir + str(year) + ".txt") # Sampling randomly from the word pairs as many times as is given
         os.remove(out_dir + str(year) + ".tmp.txt")
 
-def run_parallel(num_procs, out_dir, in_dir, years, num_words, min_count, count_dir, sample):
+def run_parallel(num_procs, out_dir, in_dir, years, num_words, min_count, count_dir, num_sam, sample):
     queue = Queue()
     for year in years:
         queue.put(year)
-    procs = [Process(target=worker, args=[i, queue, out_dir, in_dir, num_words, min_count, count_dir, sample]) for i in range(num_procs)]
+    procs = [Process(target=worker, args=[i, queue, out_dir, in_dir, num_words, min_count, count_dir, num_sam, sample]) for i in range(num_procs)]
     for p in procs:
         p.start()
     for p in procs:
@@ -66,6 +66,7 @@ if __name__ == '__main__':
     parser.add_argument("out_dir")
     parser.add_argument("in_dir")
     parser.add_argument("count_dir")
+    parser.add_argument("--num_sam", type=int, default=10000000)
     parser.add_argument("--workers", type=int, default=10)
     parser.add_argument("--num-words", type=int, default=None)
     parser.add_argument("--start-year", type=int, help="start year (inclusive)", default=1800)
@@ -76,4 +77,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     years = range(args.start_year, args.end_year + 1, args.year_inc)
     ioutils.mkdir(args.out_dir)
-    run_parallel(args.workers, args.out_dir + "/", args.in_dir + "/", years, args.num_words, args.min_count, args.count_dir, args.sample)       
+    run_parallel(args.workers, args.out_dir + "/", args.in_dir + "/", years, args.num_words, args.min_count, args.count_dir, args.num_sam, args.sample)       

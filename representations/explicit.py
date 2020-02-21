@@ -81,11 +81,13 @@ class Explicit:
             return csr_matrix((1, len(self.ic)))
     
     def similarity_first_order(self, w, c):
+        """Co-occurrence of 'w' and 'c'"""
         if self.oov(w) or self.oov(c):
             return 0.0
         return self.m[self.wi[w], self.ci[c]]
     
     def oov(self, w):
+        """Out of vocabularity"""
         return (not w in self.wi)
 
     def similarity(self, w1, w2):
