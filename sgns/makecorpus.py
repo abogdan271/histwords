@@ -1,5 +1,6 @@
 # Collects the occured word pairs in the format that can be processed by the word2vec
 # e.g. python -m sgns.makecorpus data_dir/corpus/ data_dir/decades/ data_dir/counts/ --workers 5 --start-year 1800 --end-year 1990
+# Modified by Bogdan Asztalos
 
 import argparse
 import os

@@ -1,3 +1,6 @@
+# Tools for comfortable input output.
+# Modified by Bogdan Asztalos
+
 import os
 import collections
 import cPickle as pickle

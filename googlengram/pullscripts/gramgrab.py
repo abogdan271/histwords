@@ -1,5 +1,6 @@
 # Counts the co-occurrences from the downloaded ngram files and parses them into matrices (.bin files). The files are separated by the first two letters, and years
 # e.g. python -m googlengram.pullscripts.gramgrab data_dir http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-fiction-all 2 5
+# Modified by Bogdan Asztalos
 
 import re
 import os

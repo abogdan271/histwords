@@ -1,5 +1,6 @@
 # Post-processes SGNS vectors to easier-to-use format. 
 # e.g. python -m sgns.postprocesssgns data_dir/embedding/noinit/300/ --workers 5 --start-year 1800 --end-year 1990;
+# Modified by Bogdan Asztalos
 
 import numpy as np
 from multiprocessing import Queue, Process

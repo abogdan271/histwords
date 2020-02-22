@@ -1,5 +1,6 @@
 # Modification of seq_procrustes.py for the cloud modell: Rotates the embeddings of individual years to each other, then the avarage embeddings to the previous year.
 # e.g. python -m vecanalysis.seq_procrustes_clouds data_dir sgns 80 data_dir/common_vocab.pkl
+# Modified by Bogdan Asztalos
 
 import numpy as np
 from argparse import ArgumentParser

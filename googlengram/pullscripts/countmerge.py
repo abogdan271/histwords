@@ -1,5 +1,6 @@
 # Recreates the merged co-occurrence matrices with the merged index, that was created by the indexmerge.py. Drops out words that contain non alphabetic character and stopwords
 # e.g. python -m googlengram.pullscripts.countmerge data_dir/index_merged/ data_dir/merged/ 5 --start-year 1800 --end-year 1999 --year-inc 1
+# Modified by Bogdan Asztalos
 
 import sys
 import argparse

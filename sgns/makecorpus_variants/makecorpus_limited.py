@@ -1,5 +1,6 @@
 # Modification os makecorpus.py: Creates a given number of word pair data
 # e.g. python -m sgns.makecorpus_eq data_dir/corpus/ data_dir/decades/ data_dir/counts/
+# Modified by Bogdan Asztalos
 
 import argparse
 import os

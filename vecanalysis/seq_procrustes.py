@@ -1,5 +1,6 @@
 # Rotates embedding to each other
 # e.g. python -m vecanalysis.seq_procrusetes data_dir sgns
+# Modified by Bogdan Asztalos
 
 import numpy as np
 from argparse import ArgumentParser

@@ -1,5 +1,6 @@
 # Creates a merged index for all years. Drops out words that contain non alphabetic character and stopwords
 # e.g. python -m googlengram.pullscripts.indexmerge data_dir/index_merged/ data_dir/merged/ english --start-year 1800 --end-year 1999 --year-inc 1
+# Modified by Bogdan Asztalos
 
 import collections
 import argparse

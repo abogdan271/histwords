@@ -1,3 +1,6 @@
+# Representation io functions.
+# Modified by Bogdan Asztalos
+
 import numpy as np
 import os
 import ioutils as util

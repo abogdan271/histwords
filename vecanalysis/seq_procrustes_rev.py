@@ -1,5 +1,6 @@
 # Modifications of seq_procrustes.py: Rotates years to each other in reversed order
 # e.g. python -m vecanalysis.seq_procrusetes data_dir sgns
+# Modified by Bogdan Asztalos
 
 import numpy as np
 from argparse import ArgumentParser

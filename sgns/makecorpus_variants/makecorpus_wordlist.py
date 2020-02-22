@@ -1,5 +1,6 @@
 # Modification os makecorpus.py: Uses only given words
 # e.g. python -m sgns.makecorpus_eq data_dir/corpus/ data_dir/decades/ data_dir/counts/ data_dir/common_vocab.pkl
+# Modified by Bogdan Asztalos
 
 import argparse
 import os

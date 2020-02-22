@@ -1,4 +1,5 @@
 # Merges the co-occurrence data from the alphabetically separated directories. Execution with runmerge.py. (Processes years that are contained in year!!!)
+# Modified by Bogdan Asztalos
 
 import collections
 import os

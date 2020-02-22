@@ -1,3 +1,6 @@
+# Funcitions to handle words and their indices.
+# Modified by Bogdan Asztalos
+
 import numpy as np
 
 from nltk.stem import snowball

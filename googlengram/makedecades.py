@@ -1,5 +1,6 @@
 # Creates decadely co-occurrence matrices from yearly co-occurrence matrices. (Every year must have own index.)
 # e.g. python -m googlengram.makedecades data_dir/decades/ data_dir/index_merged/ 5 --start-year 1800 --end-year 1990 --year-inc 1
+# Modified by Bogdan Asztalos
 
 import argparse
 import collections

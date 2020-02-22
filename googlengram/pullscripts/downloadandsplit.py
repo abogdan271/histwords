@@ -1,5 +1,6 @@
 # Downloads individual 5gram datafiles of a corpus from the website of google ngrams
 # e.g. python -m googlengram.pullscripts.downloadandsplit data_dir http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-fiction-all 5
+# Modified by Bogdan Asztalos
 
 import requests
 import urllib2
