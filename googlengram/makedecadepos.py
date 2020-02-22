@@ -1,3 +1,8 @@
+# Sums the occurrence of words (distinguishes words by pos)
+# e.g. python -m googlengram.makedecadepos /home/asztalosb/datas/counts/ 1 --start-year 1800 --end-year 1999
+# Modified by Bogdan Asztalos
+# MAY BE UNSTABLE
+
 import argparse
 import numpy as np
 
@@ -8,24 +13,25 @@ from Queue import Empty
 from ioutils import mkdir, write_pickle, load_pickle
 
 def worker(proc_num, queue, out_dir, in_dir):
-    while True:
+    while True: # Iterates through the decades
         try:
             decade = queue.get(block=False)
         except Empty:
             break
 
         print "Processing decade", decade
-        for year in range(10):
+        for year in range(10): # Iterates through the years of the indiviual decades
             year_counts = load_pickle(in_dir + str(decade + year) + "-pos.pkl")
             if year == 0:
-                merged_pos_counts = year_counts
-            for word, pos_counts in year_counts.iteritems():
-                for pos, count in pos_counts.iteritems():
-                    if not word in merged_pos_counts:
-                        merged_pos_counts[word] = collections.Counter()
-                    merged_pos_counts[word][pos] += count
-        maj_tags = {}
-        for word, pos_counts in merged_pos_counts.iteritems():
+                merged_pos_counts = year_counts # this variable counts the occurrence of words (distinguish words by pos)
+            else:
+                for word, pos_counts in year_counts.iteritems(): # Iterates through the words and adds the occurrence to the merged counter
+                    for pos, count in pos_counts.iteritems():
+                        if not word in merged_pos_counts:
+                            merged_pos_counts[word] = collections.Counter()
+                        merged_pos_counts[word][pos] += count
+        maj_tags = {} # Classifies words about the occurrence of the major pos
+        for word, pos_counts in merged_pos_counts.iteritems(): 
             if len(pos_counts) < 1:
                 continue
             max_label = sorted(pos_counts, key= lambda w : pos_counts[w], reverse=True)[0]
@@ -33,8 +39,8 @@ def worker(proc_num, queue, out_dir, in_dir):
                 maj_tags[word] = max_label
             else:
                 maj_tags[word] = "AMB"
-        write_pickle(merged_pos_counts, out_dir + str(decade) + "-pos_counts.pkl")
-        write_pickle(maj_tags, out_dir + str(decade) + "-pos.pkl")
+        write_pickle(merged_pos_counts, out_dir + str(decade) + "-pos_counts.pkl") # Saves the counts
+        write_pickle(maj_tags, out_dir + str(decade) + "-pos.pkl") # Saves the maj_tags
 
 def run_parallel(num_procs, out_dir, in_dir, decades):
     queue = Queue()
